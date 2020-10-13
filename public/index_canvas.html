@@ -14,7 +14,7 @@ let otherCanvas;
 
 function setup() {
   let myCanvas = createCanvas(400, 400);
-  let ssp = new SimpleSimplePeer(this, SimpleSimplePeer.CANVAS, myCanvas);
+  let ssp = new SimpleSimplePeer(this, "CANVAS", myCanvas);
   ssp.on('stream', gotStream);
 }
 
