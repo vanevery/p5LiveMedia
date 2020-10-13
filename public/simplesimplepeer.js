@@ -48,9 +48,6 @@ class SimpleSimplePeer {
 
     constructor(sketch, type, elem, host, room) {
 
-        this.CAPTURE = 1;
-        this.CANVAS = 2;
-
         this.sketch = sketch;
         this.simplepeers = [];
         
@@ -62,10 +59,10 @@ class SimpleSimplePeer {
         
         console.log(elem.elt);
     
-        if (type == this.CANVAS) {
+        if (type == "CANVAS") {
             this.mystream = elem.elt.captureStream(30);
         } else {
-            // Assume it is CAPTURE
+            // Assume it is "CAPTURE"
             this.mystream = elem;
         }
 

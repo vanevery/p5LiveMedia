@@ -6,7 +6,7 @@ var express = require('express');
 var app = express();
 
 // CORS middleware
-var cors = require('cors')
+var cors = require('cors');
 app.use(cors(
 	{
 		origin: 'https://editor.p5js.org',
