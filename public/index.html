@@ -1,9 +1,9 @@
 <html>
 	<head>
 		<script src="https://cdn.jsdelivr.net/npm/p5@1.1.9/lib/p5.js"></script>
-		<script src="simplepeer.min.js"></script>
-		<script type="text/javascript" src="/socket.io/socket.io.js"></script>
-		<script type="text/javascript" src="simplesimplepeer.js"></script>
+		<script type="text/javascript" src="https://simplepeer.itp.io/simplepeer.min.js"></script>
+		<script type="text/javascript" src="https://simplepeer.itp.io/socket.io/socket.io.js"></script>
+		<script type="text/javascript" src="https://simplepeer.itp.io/simplesimplepeer.js"></script>
 
 		<script type="text/javascript">
 
@@ -32,22 +32,18 @@
 			}
 
 			function draw() {
-				image(video,0,0,width,height);
+				image(video,0,0,width/2,height);
 				ellipse(mouseX,mouseY,100,100);
 				if (ovideo != null) {
 					rect(10,10,10,10);
-					//image(img, dx, dy, dWidth, dHeight, sx, sy, [sWidth], [sHeight])
-					image(ovideo,width/2,height/2,width/2,height/2,0,0,width/2,height/2);
+					image(ovideo,width/2,0,width/2,height);
 				}
 			}		
 			
 			// We got a new stream!
 			function gotStream(stream) {
-				print("gotStream");
 				// This is just like a video/stream from createCapture(VIDEO)
 				ovideo = stream;
-				print(ovideo);
-				//let videoEl = new p5.MediaElement(domElement, this);
 				//ovideo.hide();
 			}
 
