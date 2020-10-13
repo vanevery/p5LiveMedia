@@ -11,7 +11,7 @@
         // Stream Video
         createCanvas(400, 300);
         video = createCapture(VIDEO, function(stream) {
-            ssp = new SimpleSimplePeer(this,SimpleSimplePeer.CAPTURE,stream)
+            ssp = new SimpleSimplePeer(this,"CAPTURE",stream)
             ssp.on('stream', gotStream);
         });  
         video.muted = true;     
@@ -24,7 +24,7 @@
         video = createCapture(VIDEO);
         video.muted = true;     
         video.hide();				
-        ssp = new SimpleSimplePeer(this,SimpleSimplePeer.CANVAS,c);
+        ssp = new SimpleSimplePeer(this,"CANVAS",c);
         ssp.on('stream', gotStream);
     }
 
