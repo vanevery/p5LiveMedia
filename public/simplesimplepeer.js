@@ -70,6 +70,8 @@ class SimpleSimplePeer {
             console.log("Socket Connected");
             console.log("My socket id: ", this.socket.id);
 
+            console.log("***"+window.location.href);
+
             // Sends back a list of users in the room
             if (!room) {
                 this.socket.emit("room_connect", window.location.href);
