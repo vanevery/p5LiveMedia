@@ -2,35 +2,63 @@
  *
  * @class SimpleSimplePeer
  * @constructor
- * @param {String} [something] blah blah blah.
+ * @param {p5.sketch} [something] blah blah blah.
+ * @param {SimpleSimplePeer.MEDIA TYPE}
+ * @param {WebRTC stream}
  * @example
  *  		
- *	function setup() {
- *		 createCanvas(400, 300);
- *       let video = createCapture();       
-*		 ssp = new SimpleSimplePeer(video.elem)
-*		 ssp.blahblah
+    function setup() {
+        // Stream Video
+        createCanvas(400, 300);
+        video = createCapture(VIDEO, function(stream) {
+            ssp = new SimpleSimplePeer(this,SimpleSimplePeer.CAPTURE,stream)
+            ssp.on('stream', gotStream);
+        });  
+        video.muted = true;     
+        video.hide();
 
-        // video.elem.srcObject
-*
-*		 let c = createCanvas(400, 300);
-*		 ssp = new SimpleSimplePeer(c.elem)
-*		 ssp.blahblah
+        // OR //
 
-        // MediaStream = canvas.captureStream(frameRate);
-*	}
+        // Stream Canvas
+        let c = createCanvas(400, 300);
+        video = createCapture(VIDEO);
+        video.muted = true;     
+        video.hide();				
+        ssp = new SimpleSimplePeer(this,SimpleSimplePeer.CANVAS,c);
+        ssp.on('stream', gotStream);
+    }
+
+    function draw() {
+        image(video,0,0,width/2,height);
+        ellipse(mouseX,mouseY,100,100);
+        if (ovideo != null) {
+            rect(10,10,10,10);
+            image(ovideo,width/2,0,width/2,height);
+        }
+    }		
+    
+    // We got a new stream!
+    function gotStream(stream) {
+        // This is just like a video/stream from createCapture(VIDEO)
+        ovideo = stream;
+        //ovideo.hide();
+    }
 */
 class SimpleSimplePeer {
 
-
-    constructor(sketch, type, elem, room) {
+    constructor(sketch, type, elem, host, room) {
 
         this.CAPTURE = 1;
         this.CANVAS = 2;
 
         this.sketch = sketch;
         this.simplepeers = [];
-        this.socket = io.connect();
+        
+        if (!host) {
+            this.socket = io.connect("https://simplesimplepeer.itp.io/");
+        } else {
+            this.socket = io.connect(host);
+        }
         
         console.log(elem.elt);
     
@@ -46,7 +74,11 @@ class SimpleSimplePeer {
             console.log("My socket id: ", this.socket.id);
 
             // Sends back a list of users in the room
-            this.socket.emit("room_connect", window.location.href);
+            if (!room) {
+                this.socket.emit("room_connect", window.location.href);
+            } else {
+                this.socket.emit("room_connect", room);
+            }
         });
 
         this.socket.on('disconnect', (data) => {
@@ -129,8 +161,6 @@ class SimpleSimplePeer {
     onStream(callback) {
         this.onStreamCallback = callback;
     }
-
-
 
     callOnStreamCallback(domElement) {
         if (this.onStreamCallback) {
