@@ -5,8 +5,18 @@ var fs = require('fs');
 var express = require('express');
 var app = express();
 
+// CORS middleware
+var cors = require('cors')
+
 // Tell Express to look in the "public" folder for any files first
 app.use(express.static('public'));
+
+app.use(cors(
+	{
+		origin: 'https://editor.p5js.org',
+		optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+	}
+));
 
 // If the user just goes to the "route" / then run this function
 app.get('/', function (req, res) {
