@@ -110,13 +110,23 @@ io.sockets.on('connection',
 		socket.on('disconnect', function() {
 			console.log("Client has disconnected " + socket.id);
 			if (rooms[socket.room]) { // Check on this
+				// Tell everyone first
+				let which = -1;
 				for (let i = 0; i < rooms[socket.room].length; i++) {
-					if (rooms[socket.room][i].id == socket.id) {
-						rooms[socket.room].splice(i,1);
-					} else {
+					if (rooms[socket.room][i].id != socket.id) {
 						rooms[socket.room][i].emit('peer_disconnect', socket.id);
+					} else {
+						which = i;
 					}
-				}			
+				}		
+				// Now remove from array
+				if (rooms[socket.room][i].id == socket.id) {
+					rooms[socket.room].splice(i,1);
+					break;
+				}		
+
+				// This could fail if someone joins while the loops are in progress
+				// Maybe should be using associative arrays all the way around here
 			}
 		});
 	}
