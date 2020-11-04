@@ -13,6 +13,7 @@
         video = createCapture(VIDEO, function(stream) {
             ssp = new SimpleSimplePeer(this,"CAPTURE",stream)
             ssp.on('stream', gotStream);
+            ssp.on('data', gotData)
         });  
         video.muted = true;     
         video.hide();
@@ -26,6 +27,7 @@
         video.hide();				
         ssp = new SimpleSimplePeer(this,"CANVAS",c);
         ssp.on('stream', gotStream);
+        ssp.on('data', gotData)
     }
 
     function draw() {
@@ -43,13 +45,21 @@
         ovideo = stream;
         //ovideo.hide();
     }
+
+    function gotData(data) {
+        // Got some data from a peer
+        print(data);
+    }
 */
 class SimpleSimplePeer {
 
-    constructor(sketch, type, elem, host, room) {
+    constructor(sketch, type, elem, room, host) {
 
         this.sketch = sketch;
         this.simplepeers = [];
+        this.mystream;
+        this.onStreamCallback;
+        this.onDataCallback;
         
         if (!host) {
             this.socket = io.connect("https://simplesimplepeer.itp.io/");
@@ -61,16 +71,18 @@ class SimpleSimplePeer {
     
         if (type == "CANVAS") {
             this.mystream = elem.elt.captureStream(30);
-        } else {
-            // Assume it is "CAPTURE"
+        } else if (type == "CAPTURE") {
             this.mystream = elem;
+        } else {
+            // Assume it is just "DATA"
+
         }
 
         this.socket.on('connect', () => {
             console.log("Socket Connected");
             console.log("My socket id: ", this.socket.id);
 
-            console.log("***"+window.location.href);
+            //console.log("***"+window.location.href);
 
             // Sends back a list of users in the room
             if (!room) {
@@ -90,6 +102,7 @@ class SimpleSimplePeer {
                 if (this.simplepeers[i].socket_id == data) {
                     console.log("Removing simplepeer: " + i);
                     this.simplepeers.splice(i,1);
+                    break;
                 } 
             }			
         });			
@@ -154,11 +167,23 @@ class SimpleSimplePeer {
     on(event, callback) {
         if (event == 'stream') {
             this.onStream(callback);
+        } else if (event == 'data') {
+            this.onData(callback);
         }
     }
 
     onStream(callback) {
         this.onStreamCallback = callback;
+    }
+
+    onData(callback) {
+        this.onDataCallback = callback;
+    }
+
+    callOnDataCallback(data) {
+        if (this.onDataCallback) {
+            this.onDataCallback(data);
+        }
     }
 
     callOnStreamCallback(domElement) {
@@ -247,7 +272,11 @@ class SimplePeerWrapper {
             console.log(ovideo);
 
             this.supersimplepeer.callOnStreamCallback(ovideo);
-        });					
+        });		
+        
+        this.simplepeer.on('data', data => {
+            this.supersimplepeer.dataCallback(data);
+        });
     }
 
     inputsignal(sig) {
