@@ -289,7 +289,7 @@ class SimplePeerWrapper {
         });		
         
         this.simplepeer.on('data', data => {
-            this.supersimplepeer.dataCallback(data);
+            this.supersimplepeer.callOnDataCallback(data);
         });
     }
 
