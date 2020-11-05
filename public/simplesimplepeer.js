@@ -8,7 +8,7 @@
  * @example
  *  		
     function setup() {
-        // Stream Video
+        // Stream Audio/Video
         createCanvas(400, 300);
         video = createCapture(VIDEO, function(stream) {
             ssp = new SimpleSimplePeer(this,"CAPTURE",stream)
@@ -27,7 +27,15 @@
         video.hide();				
         ssp = new SimpleSimplePeer(this,"CANVAS",c);
         ssp.on('stream', gotStream);
-        ssp.on('data', gotData)
+        ssp.on('data', gotData);
+
+        // OR //
+
+        // Just Data
+        createCanvas(400, 300);
+        ssp = new SimpleSimplePeer(this,"DATA");
+        ssp.on('data', gotData);
+
     }
 
     function draw() {
@@ -67,7 +75,7 @@ class SimpleSimplePeer {
             this.socket = io.connect(host);
         }
         
-        console.log(elem.elt);
+        //console.log(elem.elt);
     
         if (type == "CANVAS") {
             this.mystream = elem.elt.captureStream(30);
