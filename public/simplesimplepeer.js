@@ -264,9 +264,11 @@ class SimplePeerWrapper {
             console.log(this.simplepeer);
             //p.send('whatever' + Math.random())
 
-            // Let's give them our stream
-            this.simplepeer.addStream(stream);
-            console.log("Send our stream");
+            // Let's give them our stream, if we have a stream that is
+            if (stream != null) {
+                this.simplepeer.addStream(stream);
+                console.log("Send our stream");
+            }
         });
 
         // Stream coming in to us
