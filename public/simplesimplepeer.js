@@ -174,7 +174,9 @@ class SimpleSimplePeer {
 
     send(data) {
         for (let i = 0; i < this.simplepeers.length; i++) {
-            this.simplepeers[i].send(data);
+            if (this.simplepeers[i] != null) {
+                this.simplepeers[i].send(data);
+            }
         }
     }
 
