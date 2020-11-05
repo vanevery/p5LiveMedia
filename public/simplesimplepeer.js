@@ -172,6 +172,12 @@ class SimpleSimplePeer {
         });
     }
 
+    send(data) {
+        for (let i = 0; i < this.simplepeers.length; i++) {
+            this.simplepeers[i].send(data);
+        }
+    }
+
     on(event, callback) {
         if (event == 'stream') {
             this.onStream(callback);
@@ -285,6 +291,10 @@ class SimplePeerWrapper {
         this.simplepeer.on('data', data => {
             this.supersimplepeer.dataCallback(data);
         });
+    }
+
+    send(data) {
+        this.simplepeer.send(data);
     }
 
     inputsignal(sig) {
