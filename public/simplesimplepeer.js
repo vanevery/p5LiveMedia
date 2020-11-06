@@ -242,7 +242,7 @@ class SimplePeerWrapper {
         this.simplepeer = new SimplePeer({
             initiator: initiator,
             trickle: false
-        });				
+        });
 
         this.supersimplepeer = ssp;
 
@@ -293,7 +293,8 @@ class SimplePeerWrapper {
         });		
         
         this.simplepeer.on('data', data => {
-            this.supersimplepeer.callOnDataCallback(data);
+            let stringData = String(data);
+            this.supersimplepeer.callOnDataCallback(stringData);
         });
     }
 
