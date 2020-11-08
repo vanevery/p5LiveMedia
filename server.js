@@ -8,10 +8,10 @@ var app = express();
 // CORS middleware
 var cors = require('cors');
 app.use(cors(
-	{
-		origin: 'https://editor.p5js.org',
-		optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
-	}
+{
+	origin: 'https://editor.p5js.org',
+	optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+}
 ));
 
 // Tell Express to look in the "public" folder for any files first
@@ -20,7 +20,8 @@ app.use(express.static('public'));
 
 // If the user just goes to the "route" / then run this function
 app.get('/', function (req, res) {
-  res.send('Hello World!')
+  //res.send('Hello World!')
+	res.redirect("https://github.com/vanevery/p5.simplesimplepeer");
 });
 
 // Here is the actual HTTP server 
