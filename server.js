@@ -123,7 +123,6 @@ io.sockets.on('connection',
 				// Now remove from array
 				if (rooms[socket.room][i].id == socket.id) {
 					rooms[socket.room].splice(i,1);
-					break;
 				}		
 
 				// This could fail if someone joins while the loops are in progress
