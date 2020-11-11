@@ -108,6 +108,8 @@ class SimpleSimplePeer {
             console.log("simplepeer has disconnected " + data);
             for (let i = 0; i < this.simplepeers.length; i++) {
                 if (this.simplepeers[i].socket_id == data) {
+                    console.log("Removed the DOM Element if it is exits");
+                    removeDomElement(this.simplepeers[i]);
                     console.log("Removing simplepeer: " + i);
                     this.simplepeers.splice(i,1);
                     break;
@@ -202,6 +204,12 @@ class SimpleSimplePeer {
         }
     }
 
+    removeDomElement(ssp) {
+        if (ssp.domElement) {
+            document.body.removeChild(ssp.domElement);
+        }
+    }
+
     callOnStreamCallback(domElement, id) {
         if (this.onStreamCallback) {
 
@@ -258,6 +266,9 @@ class SimplePeerWrapper {
         // Our video stream - need getters and setters for this
         this.stream = stream;
 
+        // Dom Element
+        this.domElement = null;
+
         // simplepeer generates signals which need to be sent across socket
         this.simplepeer.on('signal', data => {						
             this.socket.emit('signal', this.socket_id, this.socket.id, data);
@@ -284,19 +295,19 @@ class SimplePeerWrapper {
             console.log('Incoming Stream');
 
             // This should really be a callback
-            
+
             // Create a video object
-            let ovideo = document.createElement("VIDEO");
-            ovideo.id = this.socket_id;
-            ovideo.srcObject = stream;
-            ovideo.muted = false;
-            ovideo.onloadedmetadata = function(e) {
-                ovideo.play();
+            this.domElement = document.createElement("VIDEO");
+            this.domElement.id = this.socket_id;
+            this.domElement.srcObject = stream;
+            this.domElement.muted = false;
+            this.domElement.onloadedmetadata = function(e) {
+                this.domElement.play();
             };					
             //document.body.appendChild(ovideo);
-            console.log(ovideo);
+            console.log(this.domElement);
 
-            this.supersimplepeer.callOnStreamCallback(ovideo, this.socket_id);
+            this.supersimplepeer.callOnStreamCallback(this.domElement, this.socket_id);
         });		
         
         this.simplepeer.on('data', data => {
