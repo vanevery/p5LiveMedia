@@ -289,11 +289,14 @@ class SimplePeerWrapper {
             //document.body.appendChild(ovideo);
             console.log(ovideo);
 
+            console.log("****" + this.socket_id);
             this.supersimplepeer.callOnStreamCallback(ovideo, this.socket_id);
         });		
         
         this.simplepeer.on('data', data => {
             let stringData = String(data);
+
+            console.log("****" + this.socket_id);
             this.supersimplepeer.callOnDataCallback(stringData, this.socket_id);
         });
     }
