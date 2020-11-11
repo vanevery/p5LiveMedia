@@ -196,13 +196,13 @@ class SimpleSimplePeer {
         this.onDataCallback = callback;
     }
 
-    callOnDataCallback(data) {
+    callOnDataCallback(data, id) {
         if (this.onDataCallback) {
-            this.onDataCallback(data);
+            this.onDataCallback(data, id);
         }
     }
 
-    callOnStreamCallback(domElement) {
+    callOnStreamCallback(domElement, id) {
         if (this.onStreamCallback) {
 
             //////////////////////
@@ -227,7 +227,7 @@ class SimpleSimplePeer {
             });
             /////////////////////////////
 
-            this.onStreamCallback(videoEl);
+            this.onStreamCallback(videoEl, id);
         }
         else {
             console.log("no onStreamCallback set");
@@ -289,12 +289,12 @@ class SimplePeerWrapper {
             //document.body.appendChild(ovideo);
             console.log(ovideo);
 
-            this.supersimplepeer.callOnStreamCallback(ovideo);
+            this.supersimplepeer.callOnStreamCallback(ovideo, this.socket_id);
         });		
         
         this.simplepeer.on('data', data => {
             let stringData = String(data);
-            this.supersimplepeer.callOnDataCallback(stringData);
+            this.supersimplepeer.callOnDataCallback(stringData, this.socket_id);
         });
     }
 
