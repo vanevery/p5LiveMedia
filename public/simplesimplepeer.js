@@ -109,7 +109,7 @@ class SimpleSimplePeer {
             for (let i = 0; i < this.simplepeers.length; i++) {
                 if (this.simplepeers[i].socket_id == data) {
                     console.log("Removed the DOM Element if it is exits");
-                    removeDomElement(this.simplepeers[i]);
+                    this.removeDomElement(this.simplepeers[i]);
                     console.log("Removing simplepeer: " + i);
                     this.simplepeers.splice(i,1);
                     break;
