@@ -252,6 +252,9 @@ class SimplePeerWrapper {
         // Socket.io Socket
         this.socket = socket;
 
+        // Are we connected?
+        this.connected = false;
+
         // Our video stream - need getters and setters for this
         this.stream = stream;
 
@@ -266,6 +269,9 @@ class SimplePeerWrapper {
             console.log(this.simplepeer);
             //p.send('whatever' + Math.random())
 
+            // We are connected
+            this.connected = true;
+
             // Let's give them our stream, if we have a stream that is
             if (stream != null) {
                 this.simplepeer.addStream(stream);
@@ -278,6 +284,7 @@ class SimplePeerWrapper {
             console.log('Incoming Stream');
 
             // This should really be a callback
+            
             // Create a video object
             let ovideo = document.createElement("VIDEO");
             ovideo.id = this.socket_id;
@@ -289,20 +296,22 @@ class SimplePeerWrapper {
             //document.body.appendChild(ovideo);
             console.log(ovideo);
 
-            console.log("****" + this.socket_id);
             this.supersimplepeer.callOnStreamCallback(ovideo, this.socket_id);
         });		
         
         this.simplepeer.on('data', data => {
             let stringData = String(data);
 
-            console.log("****" + this.socket_id);
             this.supersimplepeer.callOnDataCallback(stringData, this.socket_id);
         });
     }
 
     send(data) {
-        this.simplepeer.send(data);
+        if (this.connected) {
+            this.simplepeer.send(data);
+        } else {
+            console.log("Can't send, not connected");
+        }
     }
 
     inputsignal(sig) {
