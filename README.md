@@ -14,6 +14,8 @@ Examples
 * Another Video on Canvas Example: https://editor.p5js.org/shawn/sketches/fW5DrBPAK
 * Data Only: https://editor.p5js.org/shawn/sketches/w83C-S6DU
 
+* ADVANCED:  Manipulated Video on Canvas + Audio: https://editor.p5js.org/shawn/sketches/SbNzhNujd
+
 Contributed Examples
 * Video + Data: https://editor.p5js.org/AidanNelson/sketches/8EcgJpEUi
 * Flocking Video: https://editor.p5js.org/AidanNelson/sketches/yu2CjoP8H
