@@ -10,17 +10,19 @@
     function setup() {
         // Stream Audio/Video
         createCanvas(400, 300);
+        // For A/V streams, we need to use the createCapture callback method to get the "stream" object
         video = createCapture(VIDEO, function(stream) {
             ssp = new SimpleSimplePeer(this,"CAPTURE",stream)
             ssp.on('stream', gotStream);
-            ssp.on('data', gotData)
+            ssp.on('data', gotData);
+            ssp.on('disconnect', gotDisconnect);
         });  
         video.muted = true;     
         video.hide();
 
         // OR //
 
-        // Stream Canvas
+        // Stream Canvas as Video
         let c = createCanvas(400, 300);
         video = createCapture(VIDEO);
         video.muted = true;     
@@ -28,6 +30,8 @@
         ssp = new SimpleSimplePeer(this,"CANVAS",c);
         ssp.on('stream', gotStream);
         ssp.on('data', gotData);
+        ssp.on('disconnect', gotDisconnect);
+
 
         // OR //
 
@@ -35,7 +39,7 @@
         createCanvas(400, 300);
         ssp = new SimpleSimplePeer(this,"DATA");
         ssp.on('data', gotData);
-
+        ssp.on('disconnect', gotDisconnect);
     }
 
     function draw() {
@@ -48,15 +52,21 @@
     }		
     
     // We got a new stream!
-    function gotStream(stream) {
+    function gotStream(stream, id) {
+        print("New Stream from " + id);
         // This is just like a video/stream from createCapture(VIDEO)
         ovideo = stream;
         //ovideo.hide();
     }
 
-    function gotData(data) {
+    function gotData(data, id) {
+        print("New Data from " + id);
         // Got some data from a peer
         print(data);
+    }
+
+    function gotDisconnect(id) {
+        print(id + " disconnected");
     }
 */
 class SimpleSimplePeer {
@@ -68,6 +78,7 @@ class SimpleSimplePeer {
         this.mystream;
         this.onStreamCallback;
         this.onDataCallback;
+        this.onDisconnectCallback;
         
         if (!host) {
             this.socket = io.connect("https://simplesimplepeer.itp.io/");
@@ -114,12 +125,13 @@ class SimpleSimplePeer {
                     this.simplepeers.splice(i,1);
                     break;
                 } 
-            }			
+            }	
+            this.callOnDisconnectCallback(id);
         });			
 
         // Receive listresults from server
         this.socket.on('listresults', (data) => {
-            console.log(data);
+            //console.log(data);
             for (let i = 0; i < data.length; i++) {
                 // Make sure it's not us
                 if (data[i] != this.socket.id) {	
@@ -139,10 +151,10 @@ class SimpleSimplePeer {
 
             console.log("Got a signal from the server: ", to, from, data);
 
-            // to should be us
-            if (to != this.socket.id) {
-                console.log("Socket IDs don't match");
-            }
+            // // to should be us
+            // if (to != this.socket.id) {
+            //     console.log("Socket IDs don't match");
+            // }
 
             // Look for the right simplepeer in our array
             let found = false;
@@ -150,7 +162,7 @@ class SimpleSimplePeer {
             {
                 
                 if (this.simplepeers[i].socket_id == from) {
-                    console.log("Found right object");
+                    //console.log("Found right object");
                     // Give that simplepeer the signal
                     this.simplepeers[i].inputsignal(data);
                     found = true;
@@ -159,7 +171,7 @@ class SimpleSimplePeer {
             
             }	
             if (!found) {
-                console.log("Never found right simplepeer object");
+                //console.log("Never found right simplepeer object");
                 // Let's create it then, we won't be the "initiator"
                 let simplepeer = new SimplePeerWrapper(this,
                     false, from, this.socket, this.mystream
@@ -187,7 +199,13 @@ class SimpleSimplePeer {
             this.onStream(callback);
         } else if (event == 'data') {
             this.onData(callback);
+        } else if (event == "disconnect") {
+            this.onDisconnect(callback);
         }
+    }
+
+    onDisconnect(callback) {
+        this.onDisconnectCallback = callback;
     }
 
     onStream(callback) {
@@ -196,6 +214,12 @@ class SimpleSimplePeer {
 
     onData(callback) {
         this.onDataCallback = callback;
+    }
+
+    callOnDisconnectCallback(id) {
+        if (this.onDisconnectCallback) {
+            this.callOnDisconnectCallback(id);
+        }
     }
 
     callOnDataCallback(data, id) {
@@ -263,7 +287,7 @@ class SimplePeerWrapper {
         // Are we connected?
         this.connected = false;
 
-        // Our video stream - need getters and setters for this
+        // Our video stream
         this.stream = stream;
 
         // Dom Element
@@ -276,8 +300,8 @@ class SimplePeerWrapper {
 
         // When we have a connection, send our stream
         this.simplepeer.on('connect', () => {
-            console.log('CONNECT')
-            console.log(this.simplepeer);
+            console.log('simplepeer connection')
+            //console.log(this.simplepeer);
             //p.send('whatever' + Math.random())
 
             // We are connected
@@ -286,7 +310,7 @@ class SimplePeerWrapper {
             // Let's give them our stream, if we have a stream that is
             if (stream != null) {
                 this.simplepeer.addStream(stream);
-                console.log("Send our stream");
+                //console.log("Send our stream");
             }
         });
 
@@ -328,5 +352,4 @@ class SimplePeerWrapper {
     inputsignal(sig) {
         this.simplepeer.signal(sig);
     }
-
 }		
