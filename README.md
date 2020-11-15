@@ -19,3 +19,4 @@ Examples
 Contributed Examples
 * Video + Data: https://editor.p5js.org/AidanNelson/sketches/8EcgJpEUi
 * Flocking Video: https://editor.p5js.org/AidanNelson/sketches/yu2CjoP8H
+* ADVANCED: Frame Differencing: https://editor.p5js.org/dano/sketches/ZVOoN1GB9
