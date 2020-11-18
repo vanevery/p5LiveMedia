@@ -20,7 +20,14 @@ Of course, this library needs to be included as well:
 <script type="text/javascript" src="https://simplesimplepeer.itp.io/simplesimplepeer.js"></script>
 ```
 
-Use the callback from [createCapture](https://p5js.org/reference/#/p5/createCapture) to get at the media stream.  Instantiate SimpleSimplePeer with a reference to the sketch (this), a string indicating if this is audio/video ("CAPTURE") or a canvas ("CANVAS"), the media stream, and a unique room name.  The sketch id from the p5 editor works well (in this case, "jZQ64AMJc").  Add a callback for the "stream" event, in this case, a function defined later called "gotStream":
+Use the callback from [createCapture](https://p5js.org/reference/#/p5/createCapture) to get at the media stream.  
+
+Instantiate SimpleSimplePeer with:
+* a reference to the sketch (this) 
+* a string indicating if this is audio/video ("CAPTURE") or a canvas ("CANVAS")
+* the media stream from the createCapture callback
+* and a unique room name.  The sketch id from the p5 editor works well (in this case, "jZQ64AMJc").  
+Add a callback for the "stream" event, in this case, a function defined later called "gotStream":
 ```
 let myVideo = null;
 
@@ -29,8 +36,8 @@ function setup() {
 
   myVideo = createCapture(VIDEO, 
     function(stream) {
-	    let ssp = new SimpleSimplePeer(this, "CAPTURE", stream, "jZQ64AMJc")
-  	  ssp.on('stream', gotStream);
+	let ssp = new SimpleSimplePeer(this, "CAPTURE", stream, "jZQ64AMJc")
+  	ssp.on('stream', gotStream);
     }
   );
 }
@@ -80,11 +87,83 @@ function draw() {
 ```
 
 Alternatively the p5 Canvas can be streamed instead of video:
+```
+let otherCanvas;
 
+function setup() {
+  let myCanvas = createCanvas(400, 400);
+  let ssp = new SimpleSimplePeer(this, "CANVAS", myCanvas, "e4LTqKI8Q");
+  ssp.on('stream', gotStream);
+}
+
+function draw() {
+  background(220);
+  fill(255,0,0);
+  ellipse(mouseX,mouseY,100,100); 
+}
+
+function gotStream(stream) {
+  otherCanvas = stream;
+}
+```
+
+Streaming a Canvas and Audio is a little more involved:
+```
+let myAudio;
+let myCanvas;
+
+let otherVideo;
+
+function setup() {
+  myCanvas = createCanvas(400, 400);
+  
+  // Use constraints to request audio from createCapture
+  let constraints = {
+    audio: true
+  };
+  
+  // Need to use the callback to get at the audio/video stream
+  myAudio = createCapture(constraints, function(stream) {
+    
+    // Get a stream from the canvas to send
+    let canvasStream = myCanvas.elt.captureStream(15);
+    
+    // Extract the audio tracks from the stream
+    let audioTracks = stream.getAudioTracks();
+    
+    // Use the first audio track, add it to the canvas stream
+    if (audioTracks.length > 0) {
+      canvasStream.addTrack(audioTracks[0]);
+    }
+    
+    // Give the canvas stream to SimpleSimplePeer as a "CAPTURE" stream
+    let ssp = new SimpleSimplePeer(this, "CAPTURE", canvasStream, "SimpleSimplePeerAdvancedTest");
+    ssp.on('stream', gotStream);       
+  });
+  
+  myAudio.elt.muted = true;
+  myAudio.hide();
+}
+
+function draw() {
+  background(220);
+  fill(255,0,0);
+  ellipse(mouseX,mouseY,100,100); 
+}
+
+function gotStream(stream) {
+  otherVideo = stream;
+}
+```
+
+Finally, data can be shared between peers:
+```
+
+```
 
 More documentation forthcoming.
 
-Examples
+## Examples
 * Basic Video Example: https://editor.p5js.org/shawn/sketches/jZQ64AMJc
 * Basic Audio/Video Example (on same canvas): https://editor.p5js.org/shawn/sketches/2AXFd9TLV
 * Basic Canvas Example: https://editor.p5js.org/shawn/sketches/e4LTqKI8Q
