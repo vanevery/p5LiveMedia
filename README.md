@@ -20,6 +20,7 @@ Of course, this library needs to be included as well:
 <script type="text/javascript" src="https://simplesimplepeer.itp.io/simplesimplepeer.js"></script>
 ```
 
+### Basics - Sharing Live Video Stream
 Use the callback from [createCapture](https://p5js.org/reference/#/p5/createCapture) to get at the media stream.  
 
 Instantiate SimpleSimplePeer with:
@@ -86,6 +87,7 @@ function draw() {
 }
 ```
 
+### Basics - Sharing p5 Canvas as Live Video Stream
 Alternatively the p5 Canvas can be streamed instead of video:
 ```
 let otherCanvas;
@@ -107,6 +109,7 @@ function gotStream(stream) {
 }
 ```
 
+### Sharing a p5 Canvas and Live Audio
 Streaming a Canvas and Audio is a little more involved:
 ```
 let myAudio;
@@ -156,7 +159,8 @@ function gotStream(stream) {
 }
 ```
 
-Finally, data can be shared between peers (a data connection is always available between the connected users).  To use you'll need to implement an additional callback for "data":
+### Sharing Data
+data can be shared between connected users (a data connection is always available between the connected users).  To use you'll need to implement an additional callback for "data":
 ```
 let otherX = 0;
 let otherY = 0;
@@ -198,6 +202,22 @@ function mouseMoved() {
   // Send it
   ssp.send(JSON.stringify(dataToSend));
 }
+```
+
+### Callbacks and IDs
+Each callback also includes an "id" to indicate who is sending the stream or data and there is a "disconnect" callback when a user disconnects:
+```
+  ssp.on('data', gotData);
+  function gotData(theData, id) {
+  }
+  
+  ssp.on('stream', gotStream);
+  function gotStream(theStream, id) {
+  }
+  
+  ssp.on('disconnect', gotDisconnect);
+  function gotDisconnect(id) {
+  }
 ```
 
 More documentation forthcoming.
