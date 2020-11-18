@@ -156,9 +156,48 @@ function gotStream(stream) {
 }
 ```
 
-Finally, data can be shared between peers:
+Finally, data can be shared between peers (a data connection is always available between the connected users).  To use you'll need to implement an additional callback for "data":
 ```
+let otherX = 0;
+let otherY = 0;
 
+let ssp;
+
+function setup() {
+  createCanvas(400, 400);
+  
+  // Passing in "DATA" as the capture type but data sharing works with "CAPTURE" and "CANVAS" as well
+  ssp = new SimpleSimplePeer(this, "DATA", null, "w83C-S6DU");
+  // "data" callback
+  ssp.on('data', gotData);
+}
+
+function draw() {
+  background(220);
+  
+  fill(255,0,0);
+  ellipse(mouseX,mouseY,100,100); 
+  
+  fill(0,255,0);
+  ellipse(otherX,otherY,100,100); 
+}
+
+function gotData(data, id) {
+  print(id + ":" + data);
+  
+  // If it is JSON, parse it
+  let d = JSON.parse(data);
+  otherX = d.x;
+  otherY = d.y;
+}
+
+function mouseMoved() {
+  // Package as JSON to send
+  let dataToSend = {x: mouseX, y: mouseY};
+  
+  // Send it
+  ssp.send(JSON.stringify(dataToSend));
+}
 ```
 
 More documentation forthcoming.
