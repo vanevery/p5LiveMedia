@@ -224,7 +224,7 @@ More documentation forthcoming.
 
 ## Examples
 * Basic Video Example: https://editor.p5js.org/shawn/sketches/jZQ64AMJc
-* Basic Audio/Video Example (on same canvas): https://editor.p5js.org/shawn/sketches/2AXFd9TLV
+* Basic Audio/Video Example (video overlayed): https://editor.p5js.org/shawn/sketches/2AXFd9TLV
 * Basic Canvas Example: https://editor.p5js.org/shawn/sketches/e4LTqKI8Q
 * Video on Canvas Example: https://editor.p5js.org/shawn/sketches/U396jFtFT
 * Another Video on Canvas Example: https://editor.p5js.org/shawn/sketches/fW5DrBPAK
