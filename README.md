@@ -3,7 +3,7 @@ Simple P5 WebRTC
 
 Include this library in a p5 sketch and share audio/video streams or the canvas itself as a stream.  Can also share data (string only for now).  All WebRTC so Peer to Peer.  
 
-Running a public signaling server on https://simplesimplepeer.itp.io - Run your own signalling server by running server.js (with Node, Express and Socket.io).  
+Running a public signaling server on https://simplesimplepeer.itp.io - Run your own signalling server by running server.js (with Node, Express and Socket.io) or do it o (Glitch)[https://glitch.com/~p5-simplesimplepeer].  
 
 ## Getting Started
 
