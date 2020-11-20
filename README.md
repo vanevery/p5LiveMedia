@@ -1,4 +1,4 @@
-# p5.simplesimplepeer
+# p5.simplesimplepeer - Soon to be renamed p5.live
 Simple P5 WebRTC
 
 Include this library in a p5 sketch and share audio/video streams or the canvas itself as a stream.  Can also share data (string only for now).  All WebRTC so Peer to Peer.  
