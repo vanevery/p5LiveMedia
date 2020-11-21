@@ -1,0 +1,43 @@
+<html>
+	<head>
+		<script src="https://cdn.jsdelivr.net/npm/p5@1.1.9/lib/p5.js"></script>
+		<script type="text/javascript" src="https://p5live.itp.io/simplepeer.min.js"></script>
+		<script type="text/javascript" src="https://p5live.itp.io/socket.io/socket.io.js"></script>
+		<script type="text/javascript" src="https://p5live.itp.io/p5live.js"></script>
+
+		<script type="text/javascript">
+
+			// This is the first test of the p5.p5live webrtc library and associated service.
+// Open this sketch up 2 times to send video back and forth
+
+let otherCanvas;
+
+function setup() {
+  let myCanvas = createCanvas(400, 400);
+  let p5l = new p5Live(this, "CANVAS", myCanvas);
+  p5l.on('stream', gotStream);
+}
+
+function draw() {
+  background(220);
+  stroke(255);
+  fill(255,0,0);
+  ellipse(mouseX,mouseY,100,100); 
+  
+  // We could draw the otherCanvas here but then we would end up streaming that out as well..  It would get weeeeiiiiird like Al!
+}
+
+// We got a new stream!
+function gotStream(stream) {
+  // This is just like a video/stream from createCapture(VIDEO)
+  otherCanvas = stream;
+  //otherCanvas.id is the unique identifier for this peer
+  //otherCanvas.hide();
+}
+
+		</script>
+	</head>
+  <body>
+
+  </body>
+</html>
