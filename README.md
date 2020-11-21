@@ -1,23 +1,23 @@
-# p5.simplesimplepeer - Soon to be renamed p5.live
+# p5live
 Simple P5 WebRTC
 
 Include this library in a p5 sketch and share audio/video streams or the canvas itself as a stream.  Can also share data (string only for now).  All WebRTC so Peer to Peer.  
 
-Running a public signaling server on https://simplesimplepeer.itp.io - Run your own signalling server by running server.js (with Node, Express and Socket.io).
+Running a public signaling server on https://p5live.itp.io - Run your own signalling server by running server.js (with Node, Express and Socket.io).
 
 ## Getting Started
 
 Requires [simplepeer](https://github.com/feross/simple-peer) and [socket.io](https://socket.io/) be included in the HTML:
 ```
-<script type="text/javascript" src="https://simplesimplepeer.itp.io/simplepeer.min.js"></script>
+<script type="text/javascript" src="https://p5live.itp.io/simplepeer.min.js"></script>
 ```
 ```
-<script type="text/javascript" src="https://simplesimplepeer.itp.io/socket.io.js"></script>
+<script type="text/javascript" src="https://p5live.itp.io/socket.io.js"></script>
 ```
 
 Of course, this library needs to be included as well:
 ```
-<script type="text/javascript" src="https://simplesimplepeer.itp.io/simplesimplepeer.js"></script>
+<script type="text/javascript" src="https://p5live.itp.io/p5live.js"></script>
 ```
 
 ### Basics - Sharing Live Video Stream
@@ -37,8 +37,8 @@ function setup() {
 
   myVideo = createCapture(VIDEO, 
     function(stream) {
-	let ssp = new SimpleSimplePeer(this, "CAPTURE", stream, "jZQ64AMJc")
-  	ssp.on('stream', gotStream);
+	let p5l = new p5Live(this, "CAPTURE", stream, "jZQ64AMJc")
+  	p5l.on('stream', gotStream);
     }
   );
 }
@@ -54,8 +54,8 @@ function setup() {
   let constraints = {audio: true, video: true};
   myVideo = createCapture(constraints, 
     function(stream) {
-      let ssp = new SimpleSimplePeer(this, "CAPTURE", stream, "jZQ64AMJc")
-      ssp.on('stream', gotStream);
+      let p5l = new p5live(this, "CAPTURE", stream, "jZQ64AMJc")
+      p5l.on('stream', gotStream);
     }
   );
 
@@ -94,8 +94,8 @@ let otherCanvas;
 
 function setup() {
   let myCanvas = createCanvas(400, 400);
-  let ssp = new SimpleSimplePeer(this, "CANVAS", myCanvas, "e4LTqKI8Q");
-  ssp.on('stream', gotStream);
+  let p5l = new p5live(this, "CANVAS", myCanvas, "e4LTqKI8Q");
+  p5l.on('stream', gotStream);
 }
 
 function draw() {
@@ -140,8 +140,8 @@ function setup() {
     }
     
     // Give the canvas stream to SimpleSimplePeer as a "CAPTURE" stream
-    let ssp = new SimpleSimplePeer(this, "CAPTURE", canvasStream, "SimpleSimplePeerAdvancedTest");
-    ssp.on('stream', gotStream);       
+    let p5l = new p5live(this, "CAPTURE", canvasStream, "SimpleSimplePeerAdvancedTest");
+    p5l.on('stream', gotStream);       
   });
   
   myAudio.elt.muted = true;
@@ -171,9 +171,9 @@ function setup() {
   createCanvas(400, 400);
   
   // Passing in "DATA" as the capture type but data sharing works with "CAPTURE" and "CANVAS" as well
-  ssp = new SimpleSimplePeer(this, "DATA", null, "w83C-S6DU");
+  p5l = new p5live(this, "DATA", null, "w83C-S6DU");
   // "data" callback
-  ssp.on('data', gotData);
+  p5l.on('data', gotData);
 }
 
 function draw() {
@@ -200,22 +200,22 @@ function mouseMoved() {
   let dataToSend = {x: mouseX, y: mouseY};
   
   // Send it
-  ssp.send(JSON.stringify(dataToSend));
+  p5l.send(JSON.stringify(dataToSend));
 }
 ```
 
 ### Callbacks and IDs
 Each callback also includes an "id" to indicate who is sending the stream or data and there is a "disconnect" callback when a user disconnects:
 ```
-  ssp.on('data', gotData);
+  p5l.on('data', gotData);
   function gotData(theData, id) {
   }
   
-  ssp.on('stream', gotStream);
+  p5l.on('stream', gotStream);
   function gotStream(theStream, id) {
   }
   
-  ssp.on('disconnect', gotDisconnect);
+  p5l.on('disconnect', gotDisconnect);
   function gotDisconnect(id) {
   }
 ```
