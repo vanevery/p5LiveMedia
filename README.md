@@ -1,4 +1,4 @@
-# p5live
+# p5Live
 Simple P5 WebRTC
 
 Include this library in a p5 sketch and share audio/video streams or the canvas itself as a stream.  Can also share data (string only for now).  All WebRTC so Peer to Peer.  
@@ -23,7 +23,7 @@ Of course, this library needs to be included as well:
 ### Basics - Sharing Live Video Stream
 Use the callback from [createCapture](https://p5js.org/reference/#/p5/createCapture) to get at the media stream.  
 
-Instantiate SimpleSimplePeer with:
+Instantiate p5Live with:
 * a reference to the sketch (this) 
 * a string indicating if this is audio/video ("CAPTURE") or a canvas ("CANVAS")
 * the media stream from the createCapture callback
@@ -54,7 +54,7 @@ function setup() {
   let constraints = {audio: true, video: true};
   myVideo = createCapture(constraints, 
     function(stream) {
-      let p5l = new p5live(this, "CAPTURE", stream, "jZQ64AMJc")
+      let p5l = new p5Live(this, "CAPTURE", stream, "jZQ64AMJc")
       p5l.on('stream', gotStream);
     }
   );
@@ -94,7 +94,7 @@ let otherCanvas;
 
 function setup() {
   let myCanvas = createCanvas(400, 400);
-  let p5l = new p5live(this, "CANVAS", myCanvas, "e4LTqKI8Q");
+  let p5l = new p5Live(this, "CANVAS", myCanvas, "e4LTqKI8Q");
   p5l.on('stream', gotStream);
 }
 
@@ -140,7 +140,7 @@ function setup() {
     }
     
     // Give the canvas stream to SimpleSimplePeer as a "CAPTURE" stream
-    let p5l = new p5live(this, "CAPTURE", canvasStream, "SimpleSimplePeerAdvancedTest");
+    let p5l = new p5Live(this, "CAPTURE", canvasStream, "SimpleSimplePeerAdvancedTest");
     p5l.on('stream', gotStream);       
   });
   
@@ -171,7 +171,7 @@ function setup() {
   createCanvas(400, 400);
   
   // Passing in "DATA" as the capture type but data sharing works with "CAPTURE" and "CANVAS" as well
-  p5l = new p5live(this, "DATA", null, "w83C-S6DU");
+  p5l = new p5Live(this, "DATA", null, "w83C-S6DU");
   // "data" callback
   p5l.on('data', gotData);
 }
