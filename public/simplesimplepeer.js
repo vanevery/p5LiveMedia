@@ -71,6 +71,7 @@
 */
 class SimpleSimplePeer {
 
+    
     constructor(sketch, type, elem, room, host) {
 
         this.sketch = sketch;
@@ -185,6 +186,15 @@ class SimpleSimplePeer {
             }
         });
     }
+
+    // // use this to add a track to a stream - assuming this is a stream, it will have to extract the track out
+    // addtrack(stream, type) {
+    //     if (type == "CANVAS") {
+    //         this.mystream = elem.elt.captureStream(30);
+    //     } else if (type == "CAPTURE") {
+    //         this.mystream = elem;
+    //     }
+    // }
 
     send(data) {
         for (let i = 0; i < this.simplepeers.length; i++) {
