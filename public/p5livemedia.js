@@ -74,6 +74,8 @@ class p5LiveMedia {
     constructor(sketch, type, elem, room, host) {
 
         this.sketch = sketch;
+        //sketch.disableFriendlyErrors = true;
+
         this.simplepeers = [];
         this.mystream;
         this.onStreamCallback;
@@ -98,8 +100,8 @@ class p5LiveMedia {
         }
 
         this.socket.on('connect', () => {
-            console.log("Socket Connected");
-            console.log("My socket id: ", this.socket.id);
+            //console.log("Socket Connected");
+            //console.log("My socket id: ", this.socket.id);
 
             //console.log("***"+window.location.href);
 
@@ -112,21 +114,21 @@ class p5LiveMedia {
         });
 
         this.socket.on('disconnect', (data) => {
-            console.log("Socket disconnected");
+           // console.log("Socket disconnected");
         });
 
         this.socket.on('peer_disconnect', (data) => {
-            console.log("simplepeer has disconnected " + data);
+            //console.log("simplepeer has disconnected " + data);
             for (let i = 0; i < this.simplepeers.length; i++) {
                 if (this.simplepeers[i].socket_id == data) {
-                    console.log("Removed the DOM Element if it is exits");
+                    //console.log("Removed the DOM Element if it exits");
                     this.removeDomElement(this.simplepeers[i]);
-                    console.log("Removing simplepeer: " + i);
+                    //console.log("Removing simplepeer: " + i);
                     this.simplepeers.splice(i,1);
                     break;
                 } 
             }	
-            this.callOnDisconnectCallback(id);
+            this.callOnDisconnectCallback(data);
         });			
 
         // Receive listresults from server
@@ -149,7 +151,7 @@ class p5LiveMedia {
             
         this.socket.on('signal', (to, from, data) => {
 
-            console.log("Got a signal from the server: ", to, from, data);
+            //console.log("Got a signal from the server: ", to, from, data);
 
             // // to should be us
             // if (to != this.socket.id) {
@@ -271,7 +273,7 @@ class p5LiveMedia {
             this.onStreamCallback(videoEl, id);
         }
         else {
-            console.log("no onStreamCallback set");
+            //console.log("no onStreamCallback set");
         }
     }
 }
@@ -309,7 +311,7 @@ class SimplePeerWrapper {
 
         // When we have a connection, send our stream
         this.simplepeer.on('connect', () => {
-            console.log('simplepeer connection')
+            //console.log('simplepeer connection')
             //console.log(this.simplepeer);
             //p.send('whatever' + Math.random())
 
@@ -325,7 +327,7 @@ class SimplePeerWrapper {
 
         // Stream coming in to us
         this.simplepeer.on('stream', stream => {
-            console.log('Incoming Stream');
+            //console.log('Incoming Stream');
 
             // This should really be a callback
 
@@ -338,7 +340,7 @@ class SimplePeerWrapper {
                 this.domElement.play();
             };					
             //document.body.appendChild(ovideo);
-            console.log(this.domElement);
+            //console.log(this.domElement);
 
             this.p5livemedia.callOnStreamCallback(this.domElement, this.socket_id);
         });		
@@ -348,13 +350,27 @@ class SimplePeerWrapper {
 
             this.p5livemedia.callOnDataCallback(stringData, this.socket_id);
         });
+
+        this.simplepeer.on('error', (err) => {
+            // ERR_WEBRTC_SUPPORT
+            // ERR_CREATE_OFFER
+            // ERR_CREATE_ANSWER
+            // ERR_SET_LOCAL_DESCRIPTION
+            // ERR_SET_REMOTE_DESCRIPTION
+            // ERR_ADD_ICE_CANDIDATE
+            // ERR_ICE_CONNECTION_FAILURE
+            // ERR_SIGNALING
+            // ERR_DATA_CHANNEL
+            // ERR_CONNECTION_FAILURE
+            console.log(err);
+        });
     }
 
     send(data) {
         if (this.connected) {
             this.simplepeer.send(data);
         } else {
-            console.log("Can't send, not connected");
+            //console.log("Can't send, not connected");
         }
     }
 
