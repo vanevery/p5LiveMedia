@@ -229,7 +229,7 @@ class p5LiveMedia {
 
     callOnDisconnectCallback(id) {
         if (this.onDisconnectCallback) {
-            this.callOnDisconnectCallback(id);
+            this.onDisconnectCallback(id);
         }
     }
 
