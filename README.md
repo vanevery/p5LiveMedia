@@ -236,3 +236,6 @@ Contributed Examples
 * Video + Data: https://editor.p5js.org/AidanNelson/sketches/8EcgJpEUi
 * Flocking Video: https://editor.p5js.org/AidanNelson/sketches/yu2CjoP8H
 * ADVANCED: Frame Differencing: https://editor.p5js.org/dano/sketches/ZVOoN1GB9
+* Simple Multiple Users: https://editor.p5js.org/dano/sketches/Xw4A5RK2J
+* Mutiple Users Associative Array: https://editor.p5js.org/dano/sketches/pAYsVgG_r  
+* Mutliple Users with Data: https://editor.p5js.org/dano/sketches/HRvsj7kDk
