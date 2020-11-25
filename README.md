@@ -229,7 +229,7 @@ More documentation forthcoming.
 * Video on Canvas Example: https://editor.p5js.org/shawn/sketches/U396jFtFT
 * Another Video on Canvas Example: https://editor.p5js.org/shawn/sketches/fW5DrBPAK
 * Data Only: https://editor.p5js.org/shawn/sketches/w83C-S6DU
-
+* Multiple Users Overlayed: https://editor.p5js.org/shawn/sketches/1XRw9Mut5
 * ADVANCED:  Manipulated Video on Canvas + Audio: https://editor.p5js.org/shawn/sketches/SbNzhNujd
 
 Contributed Examples
