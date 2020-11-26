@@ -230,6 +230,7 @@ More documentation forthcoming.
 * Another Video on Canvas Example: https://editor.p5js.org/shawn/sketches/fW5DrBPAK
 * Data Only: https://editor.p5js.org/shawn/sketches/w83C-S6DU
 * Multiple Users Overlayed: https://editor.p5js.org/shawn/sketches/1XRw9Mut5
+* Multiple Users 3D with Data: https://editor.p5js.org/shawn/sketches/cSGEgsk1n
 * ADVANCED:  Manipulated Video on Canvas + Audio: https://editor.p5js.org/shawn/sketches/SbNzhNujd
 
 Contributed Examples
