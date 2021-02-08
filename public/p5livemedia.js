@@ -337,7 +337,7 @@ class SimplePeerWrapper {
             this.domElement.srcObject = stream;
             this.domElement.muted = false;
             this.domElement.onloadedmetadata = function(e) {
-                e.target.domElement.play();
+                e.target.play();
             };					
             //document.body.appendChild(ovideo);
             //console.log(this.domElement);
