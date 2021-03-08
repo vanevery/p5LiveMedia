@@ -240,3 +240,6 @@ Contributed Examples
 * Simple Multiple Users: https://editor.p5js.org/dano/sketches/Xw4A5RK2J
 * Mutiple Users Associative Array: https://editor.p5js.org/dano/sketches/pAYsVgG_r  
 * Mutliple Users with Data: https://editor.p5js.org/dano/sketches/HRvsj7kDk
+* Three.js Integration: Example Sending AV Stream from a Capture Object: [code](https://github.com/dano1234/OSC21/tree/master/Convene/ShareAVStream) [live](https://www.hypercinema.org/OSC/Convene/ShareAVStream/liveMedia.html) 
+* Three.js Integration: Sending Data to Move AV Stream from Capture Object: [code](https://github.com/dano1234/OSC21/tree/master/Convene/ShareAVData) [live](https://www.hypercinema.org/OSC/Convene/ShareAVData/liveMediaData.html) 
+* Three.js Integration: Example Sending from a Canvas: [code](https://github.com/dano1234/OSC21/tree/master/Convene/ShareCanvas) [live](https://www.hypercinema.org/OSC/Convene/ShareCanvas/liveMediaCanvas.html) 
