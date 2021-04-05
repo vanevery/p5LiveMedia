@@ -95,7 +95,7 @@ class p5LiveMedia {
         } else if (type == "CAPTURE") {
             this.mystream = elem;
         } else {
-            // Assume it is just "DATA"
+            // Assume it is just "DATA" or just receiving a stream
 
         }
 
@@ -188,14 +188,35 @@ class p5LiveMedia {
         });
     }
 
-    // // use this to add a track to a stream - assuming this is a stream, it will have to extract the track out
-    // addtrack(stream, type) {
-    //     if (type == "CANVAS") {
-    //         this.mystream = elem.elt.captureStream(30);
-    //     } else if (type == "CAPTURE") {
-    //         this.mystream = elem;
-    //     }
-    // }
+    // Add a stream
+    addStream(elem, type) {
+        let goodStream = false;
+        if (type == "CANVAS") {
+            this.mystream = elem.elt.captureStream(30);
+            goodStream = true;
+        } else if (type == "CAPTURE") {
+            this.mystream = elem;
+            goodStream = true;
+        }
+
+        if (goodStream) {
+            for (let i = 0; i < this.simplepeers.length; i++) {
+                if (this.simplepeers[i] != null) {
+                    this.simplepeers[i].addStream(this.mystream);
+                }
+            }
+        }
+    }
+
+    // Disconnect from a specific peer or all 
+    // Currently untested
+    disconnect(id=-1) {
+        for (let i = 0; i < this.simplepeers.length; i++) {
+            if (this.simplepeers[i] != null && (id == -1 || id == this.simplepeers[i].socket_id)) {
+                this.simplepeers[i].destroy();
+            }
+        }
+    }
 
     send(data) {
         for (let i = 0; i < this.simplepeers.length; i++) {
@@ -372,6 +393,10 @@ class SimplePeerWrapper {
         } else {
             //console.log("Can't send, not connected");
         }
+    }
+
+    addStream(stream) {
+        this.simplepeer.addStream(stream);
     }
 
     inputsignal(sig) {
