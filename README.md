@@ -223,23 +223,24 @@ Each callback also includes an "id" to indicate who is sending the stream or dat
 More documentation forthcoming.
 
 ## Examples
-* Basic Video Example: https://editor.p5js.org/shawn/sketches/jZQ64AMJc
-* Basic Audio/Video Example (video overlayed): https://editor.p5js.org/shawn/sketches/2AXFd9TLV
-* Basic Canvas Example: https://editor.p5js.org/shawn/sketches/e4LTqKI8Q
-* Video on Canvas Example: https://editor.p5js.org/shawn/sketches/U396jFtFT
-* Another Video on Canvas Example: https://editor.p5js.org/shawn/sketches/fW5DrBPAK
-* Data Only: https://editor.p5js.org/shawn/sketches/w83C-S6DU
-* Multiple Users Overlayed: https://editor.p5js.org/shawn/sketches/1XRw9Mut5
-* Multiple Users 3D with Data: https://editor.p5js.org/shawn/sketches/cSGEgsk1n
-* ADVANCED:  Manipulated Video on Canvas + Audio: https://editor.p5js.org/shawn/sketches/SbNzhNujd
+* [Basic Video Example](https://editor.p5js.org/shawn/sketches/jZQ64AMJc)
+* [Basic Audio/Video Example (video overlayed)](https://editor.p5js.org/shawn/sketches/2AXFd9TLV)
+* [Basic Canvas Example](https://editor.p5js.org/shawn/sketches/e4LTqKI8Q)
+* [Video on Canvas Example](https://editor.p5js.org/shawn/sketches/U396jFtFT)
+* [Another Video on Canvas Example](https://editor.p5js.org/shawn/sketches/fW5DrBPAK)
+* [Data Only](https://editor.p5js.org/shawn/sketches/w83C-S6DU)
+* [Multiple Users Overlayed](https://editor.p5js.org/shawn/sketches/1XRw9Mut5)
+* [Multiple Users 3D with Data](https://editor.p5js.org/shawn/sketches/cSGEgsk1n)
+* ADVANCED: [3D Shared Space](https://github.com/vanevery/3D-Shared-Space)
+* ADVANCED: [Manipulated Video on Canvas + Audio](https://editor.p5js.org/shawn/sketches/SbNzhNujd)
 
 Contributed Examples
-* Video + Data: https://editor.p5js.org/AidanNelson/sketches/8EcgJpEUi
-* Flocking Video: https://editor.p5js.org/AidanNelson/sketches/yu2CjoP8H
-* ADVANCED: Frame Differencing: https://editor.p5js.org/dano/sketches/ZVOoN1GB9
-* Simple Multiple Users: https://editor.p5js.org/dano/sketches/Xw4A5RK2J
-* Mutiple Users Associative Array: https://editor.p5js.org/dano/sketches/pAYsVgG_r  
-* Mutliple Users with Data: https://editor.p5js.org/dano/sketches/HRvsj7kDk
+* [Video + Data](https://editor.p5js.org/AidanNelson/sketches/8EcgJpEUi)
+* [Flocking Video](https://editor.p5js.org/AidanNelson/sketches/yu2CjoP8H)
+* ADVANCED: [Frame Differencing](https://editor.p5js.org/dano/sketches/ZVOoN1GB9)
+* [Simple Multiple Users](https://editor.p5js.org/dano/sketches/Xw4A5RK2J)
+* [Mutiple Users Associative Array](https://editor.p5js.org/dano/sketches/pAYsVgG_r)
+* [Mutliple Users with Data](https://editor.p5js.org/dano/sketches/HRvsj7kDk)
 * Three.js Integration: Example Sending AV Stream from a Capture Object: [code](https://github.com/dano1234/OSC21/tree/master/Convene/ShareAVStream) [live](https://www.hypercinema.org/OSC/Convene/ShareAVStream/liveMedia.html) 
 * Three.js Integration: Sending Data to Move AV Stream from Capture Object: [code](https://github.com/dano1234/OSC21/tree/master/Convene/ShareAVData) [live](https://www.hypercinema.org/OSC/Convene/ShareAVData/liveMediaData.html) 
 * Three.js Integration: Example Sending from a Canvas: [code](https://github.com/dano1234/OSC21/tree/master/Convene/ShareCanvas) [live](https://www.hypercinema.org/OSC/Convene/ShareCanvas/liveMediaCanvas.html) 
