@@ -233,6 +233,7 @@ More documentation forthcoming.
 * [Multiple Users 3D with Data](https://editor.p5js.org/shawn/sketches/cSGEgsk1n)
 * ADVANCED: [3D Shared Space](https://github.com/vanevery/3D-Shared-Space)
 * ADVANCED: [Manipulated Video on Canvas + Audio](https://editor.p5js.org/shawn/sketches/SbNzhNujd)
+* ADVANCED: [50 Days of Video Chat](https://github.com/vanevery/50daysofvideochat)
 
 Contributed Examples
 * [Video + Data](https://editor.p5js.org/AidanNelson/sketches/8EcgJpEUi)
