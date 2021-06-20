@@ -304,8 +304,8 @@ class p5LiveMedia {
 // A wrapper for simplepeer as we need a bit more than it provides
 class SimplePeerWrapper {
 
-    constructor(p5lm, initiator, socket_id, socket, stream, videoBitrate = null) {
-        if (!videoBitrate) {
+    constructor(p5lm, initiator, socket_id, socket, stream, videoBitrate = null, audioBitrate = null) {
+        if (!videoBitrate && !audioBitrate) {
             this.simplepeer = new SimplePeer({
                 initiator: initiator,
                 trickle: false       
@@ -315,7 +315,13 @@ class SimplePeerWrapper {
                 initiator: initiator,
                 trickle: false,
                 sdpTransform: (sdp) => {
-                    const newSDP = this.setVideoBitrate(sdp, videoBitrate);
+                    let newSDP = sdp;
+                    if (videoBitrate) {
+                        newSDP = this.setMediaBitrate(sdp, videoBitrate, 'video');
+                    }
+                    if (audioBitrate) {
+                        newSDP = this.setMediaBitrate(newSDP, audioBitrate, 'audio');
+                    }
                     console.log(newSDP);
                     return newSDP;   
                 }         
@@ -417,40 +423,43 @@ class SimplePeerWrapper {
         this.simplepeer.signal(sig);
     }
 
-    // Modelled after https://webrtchacks.com/limit-webrtc-bandwidth-sdp/
-    setVideoBitrate(sdp, bitrate, mediaType = 'video') {
-        const sdpLines = sdp.split('\n');
-        let mediaLineIndex = -1;
-        const mediaLine = `m=${mediaType}`;
-        let bitrateLineIndex = -1;
-        const bitrateLine = `b=AS:${bitrate}`;
-        mediaLineIndex = sdpLines.findIndex(line => line.startsWith(mediaLine));
-      
-        // If we find a line matching “m={mediaType}”
-        if (mediaLineIndex && mediaLineIndex < sdpLines.length) {
-        // Skip the media line
-          bitrateLineIndex = mediaLineIndex + 1;
-      
-          // Skip both i=* and c=* lines (bandwidths limiters have to come afterwards)
-          while (sdpLines[bitrateLineIndex].startsWith('i=') || sdpLines[bitrateLineIndex].startsWith('c=')) {
-            bitrateLineIndex += 1;
-          }
-      
-          if (sdpLines[bitrateLineIndex].startsWith('b=')) {
-            // If the next line is a b=* line, replace it with our new bandwidth
-            sdpLines[bitrateLineIndex] = bitrateLine;
-          } else {
-            // Otherwise insert a new bitrate line
-                
-                // Only if there was a mediaType matching video
-                if (mediaLineIndex > -1) {
-                    sdpLines.splice(bitrateLineIndex, 0, bitrateLine);
-                }
+    // Borrowed from after https://webrtchacks.com/limit-webrtc-bandwidth-sdp/
+    setMediaBitrate(sdp, bitrate, mediaType = 'video') {
+        var lines = sdp.split("\n");
+        var line = -1;
+        for (var i = 0; i < lines.length; i++) {
+          if (lines[i].indexOf("m="+mediaType) === 0) {
+            line = i;
+            break;
           }
         }
-      
-        // Then return the updated sdp content as a string
-        return sdpLines.join('\n');
-      }
+        if (line === -1) {
+          console.debug("Could not find the m line for", mediaType);
+          return sdp;
+        }
+        console.debug("Found the m line for", mediaType, "at line", line);
+       
+        // Pass the m line
+        line++;
+       
+        // Skip i and c lines
+        while(lines[line].indexOf("i=") === 0 || lines[line].indexOf("c=") === 0) {
+          line++;
+        }
+       
+        // If we're on a b line, replace it
+        if (lines[line].indexOf("b") === 0) {
+          console.debug("Replaced b line at line", line);
+          lines[line] = "b=AS:"+bitrate;
+          return lines.join("\n");
+        }
+        
+        // Add a new b line
+        console.debug("Adding new b line before line", line);
+        var newLines = lines.slice(0, line)
+        newLines.push("b=AS:"+bitrate)
+        newLines = newLines.concat(lines.slice(line, lines.length))
+        return newLines.join("\n")        
+    }
         
 }		
