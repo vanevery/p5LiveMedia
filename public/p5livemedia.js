@@ -71,7 +71,7 @@
 */
 class p5LiveMedia {
 
-    constructor(sketch, type, elem, room, host) {
+    constructor(sketch, type, elem, room, host, videoBitrate = null) {
 
         this.sketch = sketch;
         //sketch.disableFriendlyErrors = true;
@@ -87,6 +87,8 @@ class p5LiveMedia {
         } else {
             this.socket = io.connect(host);
         }
+
+        this.videoBitrate = videoBitrate;
         
         //console.log(elem.elt);
     
@@ -140,7 +142,7 @@ class p5LiveMedia {
 
                     // create a new simplepeer and we'll be the "initiator"			
                     let simplepeer = new SimplePeerWrapper(this,
-                        true, data[i], this.socket, this.mystream
+                        true, data[i], this.socket, this.mystream, this.videoBitrate
                     );
 
                     // Push into our array
@@ -176,7 +178,7 @@ class p5LiveMedia {
                 //console.log("Never found right simplepeer object");
                 // Let's create it then, we won't be the "initiator"
                 let simplepeer = new SimplePeerWrapper(this,
-                    false, from, this.socket, this.mystream
+                    false, from, this.socket, this.mystream, this.videoBitrate
                 );
                 
                 // Push into our array
@@ -302,11 +304,23 @@ class p5LiveMedia {
 // A wrapper for simplepeer as we need a bit more than it provides
 class SimplePeerWrapper {
 
-    constructor(p5lm, initiator, socket_id, socket, stream) {
-        this.simplepeer = new SimplePeer({
-            initiator: initiator,
-            trickle: false
-        });
+    constructor(p5lm, initiator, socket_id, socket, stream, videoBitrate = null) {
+        if (!videoBitrate) {
+            this.simplepeer = new SimplePeer({
+                initiator: initiator,
+                trickle: false       
+            });
+        } else {
+            this.simplepeer = new SimplePeer({
+                initiator: initiator,
+                trickle: false,
+                sdpTransform: (sdp) => {
+                    const newSDP = this.setVideoBitrate(sdp, videoBitrate);
+                    console.log(newSDP);
+                    return newSDP;   
+                }         
+            });
+        }
 
         this.p5livemedia = p5lm;
 
@@ -402,4 +416,41 @@ class SimplePeerWrapper {
     inputsignal(sig) {
         this.simplepeer.signal(sig);
     }
+
+    // Modelled after https://webrtchacks.com/limit-webrtc-bandwidth-sdp/
+    setVideoBitrate(sdp, bitrate, mediaType = 'video') {
+        const sdpLines = sdp.split('\n');
+        let mediaLineIndex = -1;
+        const mediaLine = `m=${mediaType}`;
+        let bitrateLineIndex = -1;
+        const bitrateLine = `b=AS:${bitrate}`;
+        mediaLineIndex = sdpLines.findIndex(line => line.startsWith(mediaLine));
+      
+        // If we find a line matching “m={mediaType}”
+        if (mediaLineIndex && mediaLineIndex < sdpLines.length) {
+        // Skip the media line
+          bitrateLineIndex = mediaLineIndex + 1;
+      
+          // Skip both i=* and c=* lines (bandwidths limiters have to come afterwards)
+          while (sdpLines[bitrateLineIndex].startsWith('i=') || sdpLines[bitrateLineIndex].startsWith('c=')) {
+            bitrateLineIndex += 1;
+          }
+      
+          if (sdpLines[bitrateLineIndex].startsWith('b=')) {
+            // If the next line is a b=* line, replace it with our new bandwidth
+            sdpLines[bitrateLineIndex] = bitrateLine;
+          } else {
+            // Otherwise insert a new bitrate line
+                
+                // Only if there was a mediaType matching video
+                if (mediaLineIndex > -1) {
+                    sdpLines.splice(bitrateLineIndex, 0, bitrateLine);
+                }
+          }
+        }
+      
+        // Then return the updated sdp content as a string
+        return sdpLines.join('\n');
+      }
+        
 }		
