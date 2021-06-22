@@ -58,26 +58,26 @@ io.sockets.on('connection',
 	// We are given a websocket object in our function
 	function (socket) {
 
-		console.log("We have a new client: " + socket.id);
+		console.log(Date.now(), socket.id, "New client");
 		// peers.push({socket: socket});
 
 		socket.on('room_connect', function(room) {
-			console.log('room_connect', room);
+			console.log(Date.now(), socket.id, room, 'room_connect');
 
 			if (!rooms.hasOwnProperty(room)) {
-				console.log("room doesn't exist, creating it");
+				console.log(Date.now(), socket.id, "room doesn't exist, creating it");
 				rooms[room] = [];
 			}
 			rooms[room].push(socket);
 			socket.room = room;
 
-			console.log(rooms);
+			console.log(Date.now(), socket.id, rooms);
 
 			let ids = [];
 			for (let i = 0; i < rooms[socket.room].length; i++) {
 				ids.push(rooms[socket.room][i].id);
 			}
-			console.log("ids length: " + ids.length);
+			console.log(Date.now(), socket.id, "ids length: " + ids.length);
 			socket.emit('listresults', ids);
 		});
 
@@ -86,30 +86,30 @@ io.sockets.on('connection',
 			for (let i = 0; i < rooms[socket.room].length; i++) {
 				ids.push(rooms[socket.room][i].id);
 			}
-			console.log("ids length: " + ids.length);
+			console.log(Date.now(), socket.id, "ids length: " + ids.length);
 			socket.emit('listresults', ids);			
 		});
 		
 		// Relay signals back and forth
 		socket.on('signal', (to, from, data) => {
-			console.log("SIGNAL", to, data);
+			//console.log("SIGNAL", to, data);
 			let found = false;
 			for (let i = 0; i < rooms[socket.room].length; i++) {
-				console.log(rooms[socket.room][i].id, to);
+				//console.log(rooms[socket.room][i].id, to);
 				if (rooms[socket.room][i].id == to) {
-					console.log("Found Peer, sending signal");
+					//console.log("Found Peer, sending signal");
 					rooms[socket.room][i].emit('signal', to, from, data);
 					found = true;
 					break;
 				}				
 			}	
-			if (!found) {
-				console.log("never found peer");
-			}
+			// if (!found) {
+			// 	console.log("never found peer");
+			// }
 		});
 				
 		socket.on('disconnect', function() {
-			console.log("Client has disconnected " + socket.id);
+			console.log(Date.now(), socket.id, "Client has disconnected");
 			if (rooms[socket.room]) { // Check on this
 				// Tell everyone first
 				let which = -1;
@@ -126,7 +126,7 @@ io.sockets.on('connection',
 				}		
 
 				// This could fail if someone joins while the loops are in progress
-				// Maybe should be using associative arrays all the way around here
+				// Should be using associative arrays all the way around here
 			}
 		});
 	}
