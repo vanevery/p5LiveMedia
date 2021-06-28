@@ -211,6 +211,24 @@ class p5LiveMedia {
         }
     }
 
+    // Add Peer stream
+    addPeerStream(id) {
+        if (this.mystream) {
+            if (this.simplepeers[id] != null) {
+                this.simplepeers[id].addStream(this.mystream);
+            }
+        }
+    }
+
+    // Remove Peer stream
+    removePeerStream(id) {
+        if (this.mystream) {
+            if (this.simplepeers[id] != null) {
+                this.simplepeers[id].removeStream(this.mystream);
+            }
+        }
+    }
+
     // Disconnect from a specific peer or all 
     // Currently untested
     disconnect(id=-1) {
@@ -360,11 +378,12 @@ class SimplePeerWrapper {
             // We are connected
             this.connected = true;
 
-            // Let's give them our stream, if we have a stream that is
-            if (stream != null) {
-                this.simplepeer.addStream(stream);
-                //console.log("Send our stream");
-            }
+            // Not automatically doing this
+            // // Let's give them our stream, if we have a stream that is
+            // if (stream != null) {
+            //     this.simplepeer.addStream(stream);
+            //     //console.log("Send our stream");
+            // }
         });
 
         // Stream coming in to us
@@ -418,6 +437,10 @@ class SimplePeerWrapper {
 
     addStream(stream) {
         this.simplepeer.addStream(stream);
+    }
+
+    removeStream(stream) {
+        this.simplepeer.removeStream(stream);
     }
 
     inputsignal(sig) {
