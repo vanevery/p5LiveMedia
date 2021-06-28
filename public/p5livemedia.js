@@ -71,7 +71,7 @@
 */
 class p5LiveMedia {
 
-    constructor(sketch, type, elem, room, host, videoBitrate = null) {
+    constructor(sketch, type, elem, room, host, videoBitrate = null, audioBitrate = null) {
 
         this.sketch = sketch;
         //sketch.disableFriendlyErrors = true;
@@ -89,6 +89,7 @@ class p5LiveMedia {
         }
 
         this.videoBitrate = videoBitrate;
+        this.audioBitrate = audioBitrate;
         
         //console.log(elem.elt);
     
@@ -142,7 +143,7 @@ class p5LiveMedia {
 
                     // create a new simplepeer and we'll be the "initiator"			
                     let simplepeer = new SimplePeerWrapper(this,
-                        true, data[i], this.socket, this.mystream, this.videoBitrate
+                        true, data[i], this.socket, this.mystream, this.videoBitrate, this.audioBitrate
                     );
 
                     // Push into our array
@@ -178,7 +179,7 @@ class p5LiveMedia {
                 //console.log("Never found right simplepeer object");
                 // Let's create it then, we won't be the "initiator"
                 let simplepeer = new SimplePeerWrapper(this,
-                    false, from, this.socket, this.mystream, this.videoBitrate
+                    false, from, this.socket, this.mystream, this.videoBitrate, this.audioBitrate
                 );
                 
                 // Push into our array
