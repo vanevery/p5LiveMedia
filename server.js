@@ -9,7 +9,7 @@ var app = express();
 var cors = require('cors');
 app.use(cors(
 {
-	origin: 'https://editor.p5js.org',
+	origin: /p5js\.org$/,
 	optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 }
 ));
