@@ -5,7 +5,7 @@ Include this library in a p5 sketch and share audio/video streams or the canvas 
 
 Running a public signaling server on https://p5livemedia.itp.io - Run your own signalling server by running server.js (with Node, Express and Socket.io).
 
-### Video Introducing p5LiveMedia 
+#### Video Introducing p5LiveMedia 
 [![Introducing p5LiveMedia](https://img.youtube.com/vi/Ga3dZPrdSRg/0.jpg)](https://www.youtube.com/watch?v=Ga3dZPrdSRg "Introducing p5LiveMedia")
 
 ## Getting Started
@@ -90,10 +90,10 @@ function draw() {
 }
 ```
 
-### Video: Getting Started and Video Sharing Basics Part 1
+#### Video: Getting Started and Video Sharing Basics Part 1
 [![Getting Started and Video Sharing Basics Part 1](https://img.youtube.com/vi/l0Ht-3P_x4E/0.jpg)](https://www.youtube.com/watch?v=l0Ht-3P_x4E "Getting Started and Video Sharing Basics Part 1")
 
-### Video: Video Sharing Basics Part 2
+#### Video: Video Sharing Basics Part 2
 [![Video Sharing Basics Part 2](https://img.youtube.com/vi/_igbe7Vy_r8/0.jpg)](https://www.youtube.com/watch?v=_igbe7Vy_r8 "Video Sharing Basics Part 2")
 
 ### Basics - Sharing p5 Canvas as Live Video Stream
