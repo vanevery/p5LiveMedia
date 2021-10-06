@@ -94,7 +94,7 @@ function draw() {
 [![Getting Started and Video Sharing Basics Part 1](https://img.youtube.com/vi/l0Ht-3P_x4E/0.jpg)](https://www.youtube.com/watch?v=l0Ht-3P_x4E "Getting Started and Video Sharing Basics Part 1")
 
 #### Video: Video Sharing Basics Part 2
-[![Video Sharing Basics Part 2](https://img.youtube.com/vi/_igbe7Vy_r8/0.jpg)](https://www.youtube.com/watch?v=_igbe7Vy_r8 "Video Sharing Basics Part 2")
+[![Video Sharing Basics Part 2](https://img.youtube.com/vi/U8PhnLiqPQk/0.jpg)](https://www.youtube.com/watch?v=U8PhnLiqPQk "Video Sharing Basics Part 2")
 
 ### Basics - Sharing p5 Canvas as Live Video Stream
 Alternatively the p5 Canvas can be streamed instead of video:
