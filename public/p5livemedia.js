@@ -81,6 +81,7 @@ class p5LiveMedia {
         this.onStreamCallback;
         this.onDataCallback;
         this.onDisconnectCallback;
+        this.onConnectCallback;
         
         if (!host) {
             this.socket = io.connect("https://p5livemedia.itp.io/");
@@ -114,6 +115,8 @@ class p5LiveMedia {
             } else {
                 this.socket.emit("room_connect", room);
             }
+
+            this.callOnConnectCallback(this.socket.id);
         });
 
         this.socket.on('disconnect', (data) => {
@@ -236,6 +239,8 @@ class p5LiveMedia {
             this.onData(callback);
         } else if (event == "disconnect") {
             this.onDisconnect(callback);
+        } else if (event == "connect") {
+            this.onConnect(callback);
         }
     }
 
@@ -249,6 +254,16 @@ class p5LiveMedia {
 
     onData(callback) {
         this.onDataCallback = callback;
+    }
+
+    onConnect(callback) {
+        this.onConnectCallback = callback;
+    }
+
+    callOnConnectCallback(id) {
+        if (this.onConnectCallback) {
+            this.onConnectCallback(id);
+        }
     }
 
     callOnDisconnectCallback(id) {
