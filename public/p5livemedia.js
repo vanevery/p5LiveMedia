@@ -330,6 +330,9 @@ class SimplePeerWrapper {
             this.simplepeer = new SimplePeer({
                 initiator: initiator,
                 trickle: false,
+                config: { iceServers: [
+                    { urls: 'stun:stun.l.google.com:19302' }, 
+                    { urls: 'stun:stun2.l.google.com:19302' }] },
                 sdpTransform: (sdp) => {
                     let newSDP = sdp;
                     if (videoBitrate) {
